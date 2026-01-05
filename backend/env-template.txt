@@ -1,0 +1,6 @@
+PORT=3000
+MONGODB_URI=mongodb+srv://mongouser:fRYDZsMX865QogNM@cluster0.gasn0ua.mongodb.net/handicraft_store?retryWrites=true&w=majority
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRES_IN=7d
+NODE_ENV=development
+

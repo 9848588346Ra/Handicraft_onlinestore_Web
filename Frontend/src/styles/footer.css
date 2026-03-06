@@ -1,0 +1,120 @@
+/* Shared professional footer */
+.site-footer {
+  background: #1e293b;
+  color: #fff;
+  margin-top: auto;
+}
+
+.site-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+}
+
+.site-footer-left {
+  max-width: 320px;
+}
+
+.site-footer-brand {
+  display: inline-block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.site-footer-brand:hover {
+  color: #93c5fd;
+}
+
+.site-footer-tagline {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
+.site-footer-social {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.site-footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: background 0.2s, color 0.2s;
+}
+
+.site-footer-social-link:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.site-footer-right {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.site-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.site-footer-topic {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: #fff;
+  letter-spacing: 0.03em;
+}
+
+.site-footer-page {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.site-footer-page:hover {
+  color: #93c5fd;
+}
+
+a.site-footer-page:hover {
+  text-decoration: underline;
+}
+
+/* Copyright bar */
+.site-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+}
+
+.site-footer-copyright {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}

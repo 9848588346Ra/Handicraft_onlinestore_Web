@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Open App in Simple Browser",
+      "type": "shell",
+      "command": "echo ${input:openBrowser}",
+      "problemMatcher": [],
+      "presentation": { "reveal": "never", "echo": false },
+      "inputs": [
+        {
+          "id": "openBrowser",
+          "type": "command",
+          "command": "simpleBrowser.api.open",
+          "args": ["http://localhost:3001"]
+        }
+      ]
+    }
+  ]
+}

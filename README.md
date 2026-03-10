@@ -14,3 +14,4 @@ npm run dev:frontend  # port 3001
 
 Backend (`.env`): `PORT`, `MONGODB_URI`, `JWT_SECRET`, `NODE_ENV`  
 Frontend (`.env.local`): `NEXT_PUBLIC_API_URL`
+"# Handicraft-online-store-Website-1-" 

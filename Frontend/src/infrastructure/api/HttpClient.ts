@@ -1,8 +1,3 @@
-/**
- * HTTP client - Infrastructure layer
- * Handles token storage and base request logic
- */
-
 const API_BASE = (typeof window !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : null) ?? 'http://localhost:3000';
 const TOKEN_KEY = 'handicraft_token';
 const REQUEST_TIMEOUT_MS = 8000;

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../../../config/env.js';
-import { User } from '../../database/UserModel.js';
+import { userRepository } from '../../database/repositories/index.js';
 
 export interface AuthRequest extends Request {
   userId?: string;
@@ -16,14 +16,14 @@ export async function authMiddleware(req: AuthRequest, res: Response, next: Next
   const token = authHeader.slice(7);
   try {
     const decoded = jwt.verify(token, env.JWT_SECRET) as { userId: string };
-    const user = await User.findById(decoded.userId).select('-password');
+    const user = await userRepository.findById(decoded.userId);
     if (!user) return res.status(401).json({ success: false, message: 'User not found' });
-    req.userId = user._id.toString();
+    req.userId = user.id;
     req.user = {
-      id: user._id.toString(),
+      id: user.id,
       name: user.name,
       email: user.email,
-      phone: user.phone || '',
+      phone: user.phone ?? '',
       role: user.role,
     };
     next();

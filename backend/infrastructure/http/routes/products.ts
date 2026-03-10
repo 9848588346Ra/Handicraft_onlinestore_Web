@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
-import { Product } from '../../database/ProductModel.js';
+import { productRepository } from '../../database/repositories/index.js';
 import { authMiddleware, adminOnly, AuthRequest } from '../middleware/auth.js';
 
 const storage = multer.diskStorage({
@@ -19,12 +19,12 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await productRepository.findAll();
     res.json({
       success: true,
       data: {
         products: products.map((p) => ({
-          id: p._id.toString(),
+          id: p.id,
           name: p.name,
           price: p.price,
           image: p.image,
@@ -43,13 +43,13 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await productRepository.findById(req.params.id);
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
     res.json({
       success: true,
       data: {
         product: {
-          id: product._id.toString(),
+          id: product.id,
           name: product.name,
           price: product.price,
           image: product.image,
@@ -76,7 +76,7 @@ router.post('/', authMiddleware, adminOnly, upload.single('image'), async (req: 
     if (!name || !price || !category || !description || !imagePath) {
       return res.status(400).json({ success: false, message: 'Name, price, category, description, and image required' });
     }
-    const product = await Product.create({
+    const product = await productRepository.create({
       name,
       price: Number(price),
       category,
@@ -88,7 +88,7 @@ router.post('/', authMiddleware, adminOnly, upload.single('image'), async (req: 
     res.status(201).json({
       success: true,
       message: 'Product added',
-      data: { product: { id: product._id.toString() } },
+      data: { product: { id: product.id } },
     });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to add product' });

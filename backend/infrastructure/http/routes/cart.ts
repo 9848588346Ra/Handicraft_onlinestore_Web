@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Cart } from '../../database/CartModel.js';
+import { cartRepository } from '../../database/repositories/index.js';
 import { authMiddleware, AuthRequest } from '../middleware/auth.js';
 
 const router = Router();
@@ -8,11 +8,10 @@ router.use(authMiddleware);
 
 router.get('/', async (req: AuthRequest, res) => {
   try {
-    let cart = await Cart.findOne({ userId: req.userId });
-    if (!cart) cart = await Cart.create({ userId: req.userId, items: [] });
+    const items = await cartRepository.findByUserId(req.userId!);
     res.json({
       success: true,
-      data: { items: cart.items },
+      data: { items },
     });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to get cart' });
@@ -25,14 +24,11 @@ router.put('/', async (req: AuthRequest, res) => {
     if (!Array.isArray(items)) {
       return res.status(400).json({ success: false, message: 'Items array required' });
     }
-    const cart = await Cart.findOneAndUpdate(
-      { userId: req.userId },
-      { items: items.filter((i: { productId: string; quantity: number }) => i.productId && i.quantity > 0) },
-      { new: true, upsert: true }
-    );
+    const filtered = items.filter((i: { productId: string; quantity: number }) => i.productId && i.quantity > 0);
+    const result = await cartRepository.upsert(req.userId!, filtered);
     res.json({
       success: true,
-      data: { items: cart.items },
+      data: { items: result },
     });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to update cart' });
@@ -41,7 +37,7 @@ router.put('/', async (req: AuthRequest, res) => {
 
 router.delete('/', async (req: AuthRequest, res) => {
   try {
-    await Cart.findOneAndUpdate({ userId: req.userId }, { items: [] });
+    await cartRepository.clear(req.userId!);
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to clear cart' });

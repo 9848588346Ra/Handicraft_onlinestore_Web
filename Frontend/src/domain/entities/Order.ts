@@ -1,7 +1,3 @@
-/**
- * Domain entity: Order
- * Pure type - no framework dependencies
- */
 export interface Order {
   orderId: string;
   receiverName: string;

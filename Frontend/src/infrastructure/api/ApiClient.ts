@@ -1,9 +1,3 @@
-/**
- * API client - Infrastructure layer
- * Implements repository interfaces (adapters)
- * Exports the same api object for backward compatibility
- */
-
 import type { IAuthRepository, ICartRepository, IOrderRepository, IProductRepository } from '@/application/ports';
 import type { CurrentUser } from '@/domain/entities';
 import { request, setToken, clearToken, getToken, getApiBase } from './HttpClient';

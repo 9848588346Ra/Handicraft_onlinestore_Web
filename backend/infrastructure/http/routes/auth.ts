@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../../database/UserModel.js';
+import { userRepository } from '../../database/repositories/index.js';
 import { authMiddleware, AuthRequest } from '../middleware/auth.js';
 import { env } from '../../../config/env.js';
 
@@ -12,16 +12,16 @@ router.post('/register', async (req, res) => {
     if (!name || !email || !password) {
       return res.status(400).json({ success: false, message: 'Name, email, and password required' });
     }
-    const existing = await User.findOne({ email });
+    const existing = await userRepository.findByEmail(email);
     if (existing) {
       return res.status(400).json({ success: false, message: 'Email already registered' });
     }
-    const user = await User.create({ name, email, password, phone: phone || '' });
-    const token = jwt.sign({ userId: user._id }, env.JWT_SECRET, { expiresIn: '7d' });
+    const user = await userRepository.create({ name, email, password, phone: phone || '' });
+    const token = jwt.sign({ userId: user.id }, env.JWT_SECRET, { expiresIn: '7d' });
     res.status(201).json({
       success: true,
       data: {
-        user: { id: user._id.toString(), name: user.name, email: user.email, phone: user.phone },
+        user: { id: user.id, name: user.name, email: user.email, phone: user.phone },
         token,
       },
     });
@@ -36,15 +36,15 @@ router.post('/login', async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ success: false, message: 'Email and password required' });
     }
-    const user = await User.findOne({ email });
+    const user = await userRepository.findByEmail(email);
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
-    const token = jwt.sign({ userId: user._id }, env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ userId: user.id }, env.JWT_SECRET, { expiresIn: '7d' });
     res.json({
       success: true,
       data: {
-        user: { id: user._id.toString(), name: user.name, email: user.email, phone: user.phone, role: user.role },
+        user: { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role },
         token,
       },
     });

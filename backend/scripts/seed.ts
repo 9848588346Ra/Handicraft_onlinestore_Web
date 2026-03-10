@@ -1,7 +1,5 @@
-import mongoose from 'mongoose';
-import { User } from '../infrastructure/database/UserModel.js';
 import { Product } from '../infrastructure/database/ProductModel.js';
-import { env } from '../config/env.js';
+import { userRepository, productRepository } from '../infrastructure/database/repositories/index.js';
 
 const INITIAL_PRODUCTS = [
   { name: 'Colorful Felt Ball Mat', price: 53, category: 'Ball Mat', description: 'Handmade felt balls in assorted colors.', longDescription: 'This vibrant felt ball mat is handcrafted by skilled artisans using 100% natural wool.', image: '/images/Ballmat.jpeg', tag: '100% Pure', inStock: 21 },
@@ -16,9 +14,9 @@ const INITIAL_PRODUCTS = [
 ];
 
 export async function runSeed() {
-  const adminExists = await User.findOne({ email: 'rajkarki123@gmail.com' });
+  const adminExists = await userRepository.findByEmail('rajkarki123@gmail.com');
   if (!adminExists) {
-    await User.create({
+    await userRepository.create({
       name: 'Admin',
       email: 'rajkarki123@gmail.com',
       password: '123456',
@@ -27,8 +25,8 @@ export async function runSeed() {
     console.log('Admin user created (rajkarki123@gmail.com / 123456)');
   }
 
-  const productCount = await Product.countDocuments();
-  if (productCount === 0) {
+  const products = await productRepository.findAll();
+  if (products.length === 0) {
     await Product.insertMany(INITIAL_PRODUCTS);
     console.log('Initial products seeded');
   }

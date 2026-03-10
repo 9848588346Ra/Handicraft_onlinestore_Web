@@ -1,13 +1,9 @@
-/**
- * Domain entities - Pure interfaces, no framework dependencies
- */
-
 export interface IUser {
   id: string;
   name: string;
   email: string;
   phone?: string;
-  role?: string;
+  role?: 'user' | 'admin';
 }
 
 export interface IProduct {
@@ -34,4 +30,5 @@ export interface IOrder {
   phone: string;
   address: string;
   paymentMethod: string;
+  createdAt?: string;
 }

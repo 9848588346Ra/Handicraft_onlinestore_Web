@@ -1,7 +1,3 @@
-/**
- * Domain entity: Product
- * Pure type - no framework dependencies
- */
 export interface Product {
   id: string;
   name: string;
